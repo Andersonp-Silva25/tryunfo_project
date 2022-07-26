@@ -21,9 +21,10 @@ export default class Form extends Component {
       <form>
         <label htmlFor="name-input">
           Nome da carta:
+          <br />
           <input
             type="text"
-            name="name-input"
+            name="cardName"
             id="name-input"
             data-testid="name-input"
             value={ cardName }
@@ -32,9 +33,11 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="description-input">
+          <br />
           Descrição da carta:
+          <br />
           <textarea
-            name="description-input"
+            name="cardDescription"
             id="description-input"
             cols="30"
             rows="10"
@@ -45,10 +48,12 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="attr1-input">
+          <br />
           1° Atributo:
+          <br />
           <input
             type="number"
-            name="attr1-input"
+            name="cardAttr1"
             id="attr1-input"
             data-testid="attr1-input"
             value={ cardAttr1 }
@@ -57,10 +62,12 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="attr2-input">
+          <br />
           2° Atributo:
+          <br />
           <input
             type="number"
-            name="attr2-input"
+            name="cardAttr2"
             id="attr2-input"
             data-testid="attr2-input"
             value={ cardAttr2 }
@@ -69,10 +76,12 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="attr3-input">
+          <br />
           3° Atributo:
+          <br />
           <input
             type="number"
-            name="attr3-input"
+            name="cardAttr3"
             id="attr3-input"
             data-testid="attr3-input"
             value={ cardAttr3 }
@@ -81,10 +90,12 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="image-input">
+          <br />
           Imagem da carta:
+          <br />
           <input
             type="text"
-            name="image-input"
+            name="cardImage"
             id="image-input"
             data-testid="image-input"
             value={ cardImage }
@@ -93,9 +104,11 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="rare-input">
+          <br />
           Selecione a raridade:
+          <br />
           <select
-            name="rare-input"
+            name="cardRare"
             id="rare-input"
             data-testid="rare-input"
             value={ cardRare }
@@ -108,15 +121,17 @@ export default class Form extends Component {
         </label>
 
         <label htmlFor="trunfo-input">
+          <br />
           Está carta é um Super Trunfo?
           <input
             type="checkbox"
-            name="trunfo-input"
+            name="cardTrunfo"
             id="trunfo-input"
             data-testid="trunfo-input"
             checked={ cardTrunfo }
             onChange={ onInputChange }
           />
+          <br />
         </label>
 
         <button
