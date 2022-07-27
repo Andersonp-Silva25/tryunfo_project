@@ -15,15 +15,20 @@ class App extends React.Component {
       cardRare: 'Normal',
       cardTrunfo: false,
       hasTrunfo: false,
+      isSaveButtonDisabled: true,
       deck: [],
     };
   }
 
-  onInputChange = ({ target: { value, name } }) => {
-    this.setState({ [name]: value });
+  onInputChange = ({ target: { value, name, type, checked } }) => {
+    if (type === 'checkbox') {
+      this.setState({ [name]: checked }, () => this.saveButtonDisabled());
+    } else {
+      this.setState({ [name]: value }, () => this.saveButtonDisabled());
+    }
   }
 
-  isSaveButtonDisabled = () => {
+  saveButtonDisabled = () => {
     const {
       cardName,
       cardDescription,
@@ -34,25 +39,35 @@ class App extends React.Component {
       cardRare,
     } = this.state;
 
-    const sumAttr = (+cardAttr1) + (+cardAttr2) + (+cardAttr3);
+    const attr1 = +cardAttr1;
+    const attr2 = +cardAttr2;
+    const attr3 = +cardAttr3;
+
     const maxAttr = 90;
     const minAttr = 0;
     const totalAttr = 210;
 
-    if (+cardAttr1 > maxAttr) return true;
-    if (+cardAttr2 > maxAttr) return true;
-    if (+cardAttr3 > maxAttr) return true;
-    if (+cardAttr1 < minAttr || +cardAttr2 < minAttr || +cardAttr3 < minAttr) return true;
-    if (sumAttr === minAttr || sumAttr > totalAttr) return true;
+    const sumAttr = attr1 + attr2 + attr3;
+    const cardTotalAttr = sumAttr <= totalAttr;
+
+    const verifyAttr1 = attr1 >= minAttr && attr1 <= maxAttr;
+    const verifyAttr2 = attr2 >= minAttr && attr2 <= maxAttr;
+    const verifyAttr3 = attr3 >= minAttr && attr3 <= maxAttr;
+    const verifyAttrs = verifyAttr1 && verifyAttr2 && verifyAttr3;
 
     const buttonState = (
-      cardName.length === 0
-      || cardDescription.length === 0
-      || cardImage.length === 0
-      || cardRare.length === 0
+      cardName.length > 0
+      && cardDescription.length > 0
+      && cardImage.length > 0
+      && cardRare.length > 0
     );
 
-    if (buttonState) return true;
+    const verifyConditions = verifyAttrs && cardTotalAttr && buttonState;
+
+    if (verifyConditions) {
+      return this.setState({ isSaveButtonDisabled: false });
+    }
+    this.setState({ isSaveButtonDisabled: true });
   }
 
   onSaveButtonClick = (event) => {
@@ -72,14 +87,14 @@ class App extends React.Component {
     if (cardTrunfo) this.setState({ hasTrunfo: true });
 
     const objCard = {
-      cardName: { cardName },
-      cardDescription: { cardDescription },
-      cardAttr1: { cardAttr1 },
-      cardAttr2: { cardAttr2 },
-      cardAttr3: { cardAttr3 },
-      cardImage: { cardImage },
-      cardRare: { cardRare },
-      cardTrunfo: { cardTrunfo },
+      name: cardName,
+      description: cardDescription,
+      attr1: cardAttr1,
+      attr2: cardAttr2,
+      attr3: cardAttr3,
+      image: cardImage,
+      rare: cardRare,
+      trunfo: cardTrunfo,
     };
 
     this.setState((prevState) => ({
@@ -92,6 +107,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'Normal',
       cardTrunfo: false,
+      isSaveButtonDisabled: true,
     }));
   };
 
@@ -106,9 +122,9 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       hasTrunfo,
+      isSaveButtonDisabled,
+      deck,
     } = this.state;
-
-    if (cardTrunfo === 'on') this.setState({ cardTrunfo: true });
 
     return (
       <div>
@@ -124,7 +140,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
           onInputChange={ this.onInputChange }
-          isSaveButtonDisabled={ this.isSaveButtonDisabled() }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
@@ -137,6 +153,21 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+
+        { deck.map((card) => (
+          <Card
+            cardName={ card.name }
+            cardDescription={ card.description }
+            cardAttr1={ card.attr1 }
+            cardAttr2={ card.attr2 }
+            cardAttr3={ card.attr3 }
+            cardImage={ card.image }
+            cardRare={ card.rare }
+            cardTrunfo={ card.trunfo }
+            key={ card.name }
+          />
+        ))}
+
       </div>
     );
   }
