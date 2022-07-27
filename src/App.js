@@ -14,6 +14,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'Normal',
       cardTrunfo: false,
+      hasTrunfo: false,
       deck: [],
     };
   }
@@ -68,6 +69,8 @@ class App extends React.Component {
       cardTrunfo,
     } = this.state;
 
+    if (cardTrunfo) this.setState({ hasTrunfo: true });
+
     const objCard = {
       cardName: { cardName },
       cardDescription: { cardDescription },
@@ -102,6 +105,7 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      hasTrunfo,
     } = this.state;
 
     if (cardTrunfo === 'on') this.setState({ cardTrunfo: true });
@@ -118,6 +122,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          hasTrunfo={ hasTrunfo }
           onInputChange={ this.onInputChange }
           isSaveButtonDisabled={ this.isSaveButtonDisabled() }
           onSaveButtonClick={ this.onSaveButtonClick }
