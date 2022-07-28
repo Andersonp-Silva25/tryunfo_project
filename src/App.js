@@ -16,6 +16,7 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      isDeleteButtonDisabled: true,
       deck: [],
     };
   }
@@ -111,6 +112,29 @@ class App extends React.Component {
     }));
   };
 
+  onDeleteButtonClick = ({ target: { id } }) => {
+    const { deck } = this.state;
+
+    const newDeck = deck.filter((card) => (
+      card.name !== id
+    ));
+
+    const verifyCard = deck.filter((card) => (
+      card.name === id
+    ));
+
+    const isCardTrunfo = verifyCard.find((card) => card);
+
+    if (isCardTrunfo.trunfo) {
+      this.setState({
+        deck: newDeck,
+        hasTrunfo: false,
+      });
+    } else {
+      this.setState({ deck: newDeck });
+    }
+  };
+
   render() {
     const {
       cardName,
@@ -123,6 +147,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
+      isDeleteButtonDisabled,
       deck,
     } = this.state;
 
@@ -164,6 +189,10 @@ class App extends React.Component {
             cardImage={ card.image }
             cardRare={ card.rare }
             cardTrunfo={ card.trunfo }
+            isDeleteButtonDisabled={ isDeleteButtonDisabled }
+            onDeleteButtonClick={ this.onDeleteButtonClick }
+            id={ card.name }
+            className={ card.trunfo }
             key={ card.name }
           />
         ))}
