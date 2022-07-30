@@ -54,9 +54,10 @@ Card.propTypes = {
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
   isDeleteButtonDisabled: PropTypes.bool,
-  onDeleteButtonClick: PropTypes.func.isRequired,
+  onDeleteButtonClick: PropTypes.func,
 };
 
 Card.defaultProps = {
   isDeleteButtonDisabled: false,
+  onDeleteButtonClick: () => {},
 };
