@@ -20,6 +20,7 @@ class App extends React.Component {
       isDeleteButtonDisabled: true,
       deck: [],
       filter: '',
+      rareFilter: 'todas',
     };
   }
 
@@ -108,7 +109,7 @@ class App extends React.Component {
       cardAttr2: '0',
       cardAttr3: '0',
       cardImage: '',
-      cardRare: 'Normal',
+      cardRare: 'normal',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
     }));
@@ -137,8 +138,9 @@ class App extends React.Component {
     }
   };
 
-  onCardFilter = ({ target: { value } }) => {
-    this.setState({ filter: value });
+  onCardFilter = ({ target: { value, name } }) => {
+    if (name === 'name') this.setState({ filter: value });
+    if (name === 'rare') this.setState({ rareFilter: value });
   }
 
   render() {
@@ -156,10 +158,12 @@ class App extends React.Component {
       isDeleteButtonDisabled,
       deck,
       filter,
+      rareFilter,
     } = this.state;
 
     const cardsFilter = deck.filter((card) => (
-      card.name.includes(filter)
+      card.name.toLowerCase().includes(filter.toLowerCase())
+      && (card.rare.toLowerCase() === rareFilter.toLowerCase() || rareFilter === 'todas')
     ));
 
     return (
