@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class CardFilter extends Component {
   render() {
-    const { onCardFilter } = this.props;
+    const { onCardFilter, trunfoCheck } = this.props;
     return (
       <div>
         <h3>Filtrar Cartas</h3>
@@ -16,6 +16,7 @@ export default class CardFilter extends Component {
               placeholder="Filtrar pelo nome"
               onChange={ onCardFilter }
               data-testid="name-filter"
+              disabled={ trunfoCheck }
             />
           </label>
           <br />
@@ -25,6 +26,7 @@ export default class CardFilter extends Component {
               id="card-filter-rare"
               data-testid="rare-filter"
               onChange={ onCardFilter }
+              disabled={ trunfoCheck }
             >
               <option value="todas">Todas</option>
               <option value="normal">Normal</option>
@@ -32,6 +34,16 @@ export default class CardFilter extends Component {
               <option value="muito raro">Muito Raro</option>
             </select>
             <br />
+          </label>
+          <label htmlFor="trunfo">
+            Filtrar Super Trunfo
+            <input
+              type="checkbox"
+              name="trunfo"
+              id="trunfo"
+              data-testid="trunfo-filter"
+              onChange={ onCardFilter }
+            />
           </label>
         </form>
       </div>
@@ -41,4 +53,5 @@ export default class CardFilter extends Component {
 
 CardFilter.propTypes = {
   onCardFilter: PropTypes.func.isRequired,
+  trunfoCheck: PropTypes.bool.isRequired,
 };

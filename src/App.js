@@ -21,6 +21,7 @@ class App extends React.Component {
       deck: [],
       filter: '',
       rareFilter: 'todas',
+      trunfoCheck: false,
     };
   }
 
@@ -138,9 +139,12 @@ class App extends React.Component {
     }
   };
 
-  onCardFilter = ({ target: { value, name } }) => {
+  onCardFilter = ({ target: { value, name, type, checked } }) => {
     if (name === 'name') this.setState({ filter: value });
     if (name === 'rare') this.setState({ rareFilter: value });
+    if (type === 'checkbox') {
+      this.setState({ trunfoCheck: checked });
+    }
   }
 
   render() {
@@ -159,10 +163,12 @@ class App extends React.Component {
       deck,
       filter,
       rareFilter,
+      trunfoCheck,
     } = this.state;
 
     const cardsFilter = deck.filter((card) => (
-      card.name.toLowerCase().includes(filter.toLowerCase())
+      trunfoCheck ? card.trunfo === trunfoCheck
+        : card.name.toLowerCase().includes(filter.toLowerCase())
       && (card.rare.toLowerCase() === rareFilter.toLowerCase() || rareFilter === 'todas')
     ));
 
@@ -194,7 +200,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
         />
 
-        <CardFilter onCardFilter={ this.onCardFilter } />
+        <CardFilter onCardFilter={ this.onCardFilter } trunfoCheck={ trunfoCheck } />
 
         { cardsFilter.map((card) => (
           <Card
