@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './components/Card';
+import CardFilter from './components/CardFilter';
 import Form from './components/Form';
 
 class App extends React.Component {
@@ -18,6 +19,7 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       isDeleteButtonDisabled: true,
       deck: [],
+      filter: '',
     };
   }
 
@@ -135,6 +137,10 @@ class App extends React.Component {
     }
   };
 
+  onCardFilter = ({ target: { value } }) => {
+    this.setState({ filter: value });
+  }
+
   render() {
     const {
       cardName,
@@ -149,7 +155,12 @@ class App extends React.Component {
       isSaveButtonDisabled,
       isDeleteButtonDisabled,
       deck,
+      filter,
     } = this.state;
+
+    const cardsFilter = deck.filter((card) => (
+      card.name.includes(filter)
+    ));
 
     return (
       <div>
@@ -179,7 +190,9 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
         />
 
-        { deck.map((card) => (
+        <CardFilter onCardFilter={ this.onCardFilter } />
+
+        { cardsFilter.map((card) => (
           <Card
             cardName={ card.name }
             cardDescription={ card.description }
